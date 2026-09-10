@@ -1,0 +1,65 @@
+.insurance-cta {
+  padding: var(--space-2xl) 0;
+  background: var(--blue-pale);
+  position: relative;
+  overflow: hidden;
+}
+
+.insurance-cta::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -5%;
+  transform: translateY(-50%);
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(26, 109, 192, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.insurance-cta__inner {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  justify-content: space-between;
+}
+
+.insurance-cta__icon-block {
+  flex-shrink: 0;
+  width: 90px;
+  height: 90px;
+  background: var(--blue-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(26, 109, 192, 0.3);
+}
+
+.insurance-cta__icon-block svg {
+  width: 44px;
+  height: 44px;
+  fill: var(--white);
+}
+
+.insurance-cta__text {
+  flex: 1;
+}
+
+.insurance-cta__actions {
+  flex-shrink: 0;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .insurance-cta__inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .insurance-cta__text .section-subtitle {
+    margin: 0 auto;
+  }
+}

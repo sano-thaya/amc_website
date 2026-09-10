@@ -1,0 +1,128 @@
+.services {
+  padding: var(--space-2xl) 0;
+  background: var(--white);
+}
+
+.services__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.services__item {
+  position: relative;
+  background: var(--white);
+  border: 1px solid var(--gray-light);
+  border-radius: var(--radius-md);
+  padding: 1.75rem 1.5rem;
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+  overflow: hidden;
+}
+
+.services__item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  background: linear-gradient(180deg, var(--blue-pale) 0%, transparent 100%);
+  transition: height var(--transition-base);
+  z-index: 0;
+}
+
+.services__item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(26, 109, 192, 0.2);
+}
+
+.services__item:hover::after {
+  height: 60px;
+}
+
+.services__item-content {
+  position: relative;
+  z-index: 1;
+}
+
+.services__item-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--blue-pale);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.1rem;
+  transition: background var(--transition-base);
+}
+
+.services__item:hover .services__item-icon {
+  background: var(--blue-primary);
+}
+
+.services__item-icon svg {
+  width: 22px;
+  height: 22px;
+  fill: var(--blue-primary);
+  transition: fill var(--transition-base);
+}
+
+.services__item:hover .services__item-icon svg {
+  fill: var(--white);
+}
+
+.services__item-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--dark-text);
+  margin-bottom: 0.5rem;
+}
+
+.services__item-desc {
+  font-size: 0.875rem;
+  color: var(--gray-text);
+  line-height: 1.65;
+  margin-bottom: 1rem;
+}
+
+.services__item-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--blue-primary);
+  transition: gap var(--transition-fast), color var(--transition-fast);
+}
+
+.services__item-link:hover {
+  gap: 0.6rem;
+  color: var(--blue-deep);
+}
+
+.services__item-link svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+  transition: transform var(--transition-fast);
+}
+
+.services__item:hover .services__item-link svg {
+  transform: translateX(3px);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .services__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .services__grid {
+    grid-template-columns: 1fr;
+  }
+}
