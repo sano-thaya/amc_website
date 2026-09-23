@@ -1,6 +1,6 @@
 .insurance-cta {
   padding: var(--space-2xl) 0;
-  background: var(--blue-pale);
+  background: var(--gray-bg);
   position: relative;
   overflow: hidden;
 }
@@ -9,57 +9,90 @@
   content: '';
   position: absolute;
   top: 50%;
-  right: -5%;
+  right: 5%;
   transform: translateY(-50%);
-  width: 420px;
-  height: 420px;
+  width: 600px;
+  height: 600px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(26, 109, 192, 0.1) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(26, 109, 192, 0.05) 0%, transparent 70%);
   pointer-events: none;
 }
 
 .insurance-cta__inner {
   display: flex;
   align-items: center;
-  gap: 3rem;
+  gap: 4rem;
   justify-content: space-between;
+  background: var(--white);
+  padding: 3rem 4rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--gray-light);
+  position: relative;
+  z-index: 1;
 }
 
 .insurance-cta__icon-block {
   flex-shrink: 0;
-  width: 90px;
-  height: 90px;
-  background: var(--blue-primary);
+  width: 100px;
+  height: 100px;
+  background: var(--blue-pale);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 24px rgba(26, 109, 192, 0.3);
-}
-
-.insurance-cta__icon-block svg {
-  width: 44px;
-  height: 44px;
-  fill: var(--white);
+  color: var(--blue-primary);
+  box-shadow: inset 0 0 0 2px var(--blue-light);
 }
 
 .insurance-cta__text {
   flex: 1;
 }
 
+.insurance-cta__text .section-eyebrow {
+  margin-bottom: 0.5rem;
+}
+
+.insurance-cta__text .section-title {
+  margin-bottom: 1rem;
+  font-size: 2.2rem;
+}
+
+.insurance-cta__text .section-subtitle {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
 .insurance-cta__actions {
   flex-shrink: 0;
 }
 
+.insurance-cta__btn {
+  padding: 1.25rem 2.5rem;
+  border-radius: var(--radius-md);
+}
+
+.insurance-cta__btn svg {
+  transition: transform var(--transition-fast);
+}
+
+.insurance-cta__btn:hover svg {
+  transform: translateX(4px);
+}
+
 /* Responsive */
+@media (max-width: 1024px) {
+  .insurance-cta__inner {
+    padding: 3rem;
+    gap: 3rem;
+  }
+}
+
 @media (max-width: 900px) {
   .insurance-cta__inner {
     flex-direction: column;
     text-align: center;
     gap: 2rem;
-  }
-
-  .insurance-cta__text .section-subtitle {
-    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
   }
 }
