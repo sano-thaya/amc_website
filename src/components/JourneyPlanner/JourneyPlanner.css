@@ -1,0 +1,135 @@
+.planner {
+  position: relative;
+  z-index: 10;
+  margin-top: -80px; /* Pull up to overlap Hero slightly */
+  padding-bottom: var(--space-2xl);
+}
+
+.planner__container {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 3rem 4rem;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--gray-light);
+}
+
+.planner__header {
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.planner__title {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  color: var(--blue-deep);
+  margin-bottom: 0.5rem;
+}
+
+.planner__subtitle {
+  color: var(--gray-text);
+  font-size: 1.1rem;
+}
+
+.planner__form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.planner__group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.planner__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--gray-mid);
+  letter-spacing: 0.1em;
+}
+
+.planner__select-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  background: var(--gray-bg);
+  border: 1px solid var(--gray-light);
+  border-radius: var(--radius-md);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--dark-text);
+  transition: all var(--transition-fast);
+  max-width: 400px;
+}
+
+.planner__select-btn:hover {
+  border-color: var(--blue-mid);
+  background: var(--white);
+}
+
+.planner__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.planner__pill {
+  padding: 0.8rem 1.5rem;
+  border-radius: var(--radius-full);
+  background: var(--white);
+  border: 1px solid var(--gray-light);
+  color: var(--body-text);
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+
+.planner__pill:hover {
+  border-color: var(--blue-mid);
+  color: var(--blue-primary);
+}
+
+.planner__pill.is-active {
+  background: var(--blue-deep);
+  border-color: var(--blue-deep);
+  color: var(--white);
+  box-shadow: var(--shadow-sm);
+}
+
+.planner__submit {
+  align-self: flex-start;
+  margin-top: 1rem;
+  padding: 1.25rem 2.5rem;
+  font-size: 1.1rem;
+  border-radius: var(--radius-md);
+}
+
+.planner__submit svg {
+  transition: transform var(--transition-fast);
+}
+
+.planner__submit:hover svg {
+  transform: translateX(4px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .planner__container {
+    padding: 2rem 1.5rem;
+  }
+  
+  .planner__title {
+    font-size: 1.8rem;
+  }
+  
+  .planner__select-btn {
+    max-width: 100%;
+  }
+  
+  .planner__submit {
+    align-self: stretch;
+    justify-content: center;
+  }
+}
