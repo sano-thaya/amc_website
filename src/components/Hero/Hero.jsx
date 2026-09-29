@@ -69,7 +69,7 @@ export default function Hero() {
           <motion.div className="hero__actions" variants={itemVariants}>
             <button
               className="btn btn--primary hero__btn"
-              onClick={() => scrollToSection('#journey-planner')}
+              onClick={() => scrollToSection('#services')}
             >
               Explore Services
             </button>
