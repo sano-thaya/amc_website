@@ -44,7 +44,7 @@ export default function Navbar() {
   // Section Observer for active navigation item
   useEffect(() => {
     const sectionIds = ['home', 'about', 'services', 'packages', 'destinations', 'contact'];
-    
+
     const observerCallback = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -90,17 +90,17 @@ export default function Navbar() {
   };
 
   return (
-    <header 
-      className={`navbar ${scrolled ? 'navbar--scrolled' : 'navbar--transparent'}`} 
-      id="navbar" 
+    <header
+      className={`navbar ${scrolled ? 'navbar--scrolled' : 'navbar--transparent'}`}
+      id="navbar"
       role="banner"
     >
       <div className="navbar__inner">
         {/* Logo */}
-        <a 
-          href="#home" 
-          className="navbar__logo" 
-          onClick={(e) => handleLinkClick(e, '#home')} 
+        <a
+          href="#home"
+          className="navbar__logo"
+          onClick={(e) => handleLinkClick(e, '#home')}
           aria-label="AMC Travel Service — Home"
         >
           <div className="navbar__logo-icon">
@@ -129,14 +129,7 @@ export default function Navbar() {
               </a>
             );
           })}
-          <a
-            href="#contact"
-            className="btn btn--primary navbar__cta"
-            onClick={(e) => handleLinkClick(e, '#contact')}
-            id="navbar-contact-cta"
-          >
-            Contact Us
-          </a>
+
         </nav>
 
         {/* Hamburger */}
