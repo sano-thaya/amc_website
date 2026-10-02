@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ChevronDown } from 'lucide-react';
@@ -16,7 +17,7 @@ export default function ServiceExperience() {
   function handleEnquireService(e, serviceTitle) {
     e.preventDefault();
     e.stopPropagation();
-    
+
     // Smooth scroll to contact email form
     const target = document.querySelector('#contact');
     if (target) {

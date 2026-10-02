@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import emailjs from '@emailjs/browser';
 import {
   MapPin,
   Phone,
@@ -14,18 +13,8 @@ import {
 } from 'lucide-react';
 import './Contact.css';
 
-// ── EmailJS Configuration ─────────────────────────────────────────
-// These are read from your .env file (VITE_ prefix exposes them to the browser)
-const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-const CONTACT_EMAIL = import.meta.env.VITE_CONTACT_EMAIL || 'sano.nago2712nr@gmail.com';
-
-const IS_EMAILJS_CONFIGURED =
-  EMAILJS_SERVICE_ID &&
-  EMAILJS_TEMPLATE_ID &&
-  EMAILJS_PUBLIC_KEY &&
-  !EMAILJS_SERVICE_ID.includes('your_');
+// Display contact email for the UI
+const CONTACT_EMAIL = 'sano.nago2712nr@gmail.com';
 
 const serviceOptions = [
   'Air Tickets',
@@ -47,7 +36,8 @@ export default function Contact() {
     email: '',
     phone: '',
     service: 'Air Tickets',
-    message: ''
+    message: '',
+    honeypot: ''
   });
 
   const [formStatus, setFormStatus] = useState('idle'); // 'idle' | 'sending' | 'success' | 'error'
@@ -101,52 +91,45 @@ export default function Contact() {
 
     setFormStatus('sending');
 
-    if (IS_EMAILJS_CONFIGURED) {
-      // ── Send real email via EmailJS ───────────────────────
-      try {
-        const templateParams = {
-          from_name: formData.name,
-          reply_to: formData.email,      // When you hit Reply in Gmail, this is where it goes
-          phone: formData.phone || 'Not provided',
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
           service: formData.service,
           message: formData.message,
-          to_email: CONTACT_EMAIL,
-        };
+          honeypot: formData.honeypot
+        })
+      });
 
-        await emailjs.send(
-          EMAILJS_SERVICE_ID,
-          EMAILJS_TEMPLATE_ID,
-          templateParams,
-          EMAILJS_PUBLIC_KEY
-        );
+      const result = await response.json();
 
+      if (response.ok && result.success) {
         setFormStatus('success');
-      } catch (err) {
-        console.error('EmailJS error:', err);
+      } else {
         setErrorMessage(
-          'Sorry, there was a problem sending your message. Please try emailing us directly at ' +
-          CONTACT_EMAIL
+          result.error ||
+          `Sorry, there was a problem sending your message. Please try emailing us directly at ${CONTACT_EMAIL}`
         );
         setFormStatus('error');
       }
-    } else {
-      // ── Dev mode: no EmailJS keys yet, open mailto as fallback ──
-      const subject = encodeURIComponent(`AMC Travel Inquiry: ${formData.service} from ${formData.name}`);
-      const body = encodeURIComponent(
-        `Hello AMC Travel Service,\n\n` +
-        `Name: ${formData.name}\n` +
-        `Email: ${formData.email}\n` +
-        `Phone: ${formData.phone || 'Not provided'}\n` +
-        `Service: ${formData.service}\n\n` +
-        `Message:\n${formData.message}\n`
+    } catch (err) {
+      console.error('Contact submission error:', err);
+      setErrorMessage(
+        `Sorry, there was a connection problem. Please try emailing us directly at ${CONTACT_EMAIL}`
       );
-      window._devMailto = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-      setFormStatus('success');
+      setFormStatus('error');
     }
   };
 
   const handleResetForm = () => {
-    setFormData({ name: '', email: '', phone: '', service: 'Air Tickets', message: '' });
+    setFormData({ name: '', email: '', phone: '', service: 'Air Tickets', message: '', honeypot: '' });
     setFormStatus('idle');
     setErrorMessage('');
   };
@@ -162,18 +145,6 @@ export default function Contact() {
             Send us a message and we will reply directly to your email. We are eager to make your travel seamless and unforgettable.
           </p>
         </div>
-
-        {/* Dev warning banner — only visible when EmailJS keys are missing */}
-        {!IS_EMAILJS_CONFIGURED && (
-          <div className="contact__dev-notice">
-            <AlertCircle size={16} />
-            <span>
-              <strong>Dev Mode:</strong> EmailJS not configured yet. Follow{' '}
-              <strong>EMAILJS_SETUP.md</strong> to enable real email sending to{' '}
-              <strong>{CONTACT_EMAIL}</strong>.
-            </span>
-          </div>
-        )}
 
         <div className="contact__grid">
           {/* ── Email Form ─────────────────────────────────── */}
@@ -217,21 +188,10 @@ export default function Contact() {
                   </p>
 
                   <div className="contact__success-actions">
-                    {!IS_EMAILJS_CONFIGURED && window._devMailto && (
-                      <a
-                        href={window._devMailto}
-                        className="btn btn--primary"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Mail size={18} />
-                        <span>Open in Email App (Dev fallback)</span>
-                      </a>
-                    )}
                     <button
                       type="button"
                       onClick={handleResetForm}
-                      className="btn btn--outline-blue"
+                      className="btn btn--primary"
                     >
                       <RefreshCw size={16} />
                       <span>Send Another Message</span>
@@ -246,6 +206,18 @@ export default function Contact() {
                   onSubmit={handleSubmit}
                   noValidate
                 >
+                  {/* Hidden honeypot field for bot spam filtering */}
+                  <input
+                    type="text"
+                    name="honeypot"
+                    value={formData.honeypot}
+                    onChange={handleChange}
+                    style={{ display: 'none' }}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                  />
+
                   <AnimatePresence>
                     {formStatus === 'error' && (
                       <motion.div
@@ -356,7 +328,7 @@ export default function Contact() {
                     {formStatus === 'sending' ? (
                       <>
                         <RefreshCw size={18} className="animate-spin" />
-                        <span>Sending to {CONTACT_EMAIL}…</span>
+                        <span>Sending message…</span>
                       </>
                     ) : (
                       <>
